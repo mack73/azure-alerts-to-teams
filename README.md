@@ -19,3 +19,5 @@ Upon successful deployment of the template. You will need to authorize the API c
     C. Click the blue 'Authorize' button
     D. Complete the login process.
     E. Click 'Save' 
+
+![API Connection Settings in Azure Portal(https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/api-connection-screenshot1.png)
