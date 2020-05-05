@@ -11,7 +11,7 @@ D. An alert to kick off the process when a Service Health alert is generated for
 This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Installation Instructions:
-1. Deploy 'api-connection.json' template. Required parameter: 'api_connection_username' You will need to include The email address of the account used to authenticate to teams as a parameter. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
+1. Deploy 'api-connection.json' template. Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
 
     #### Example deployment using CLI: 
     az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
@@ -45,7 +45,7 @@ This set of instructions deploys a complete set of resources for each alert type
     1. Login to the Azure portal and locate the logic app
     2. Click on 'Logic app designer' on the left panel
     3. Click on 'Post a message' to expand the step 
-    4. Select the 'Team' and 'Channel' from the dropdowns
+    4. Select the desired 'Team' and 'Channel' from the dropdowns
     5. Click 'Save' at the top. Repeat these steps for all 4 logic apps
 
     ![Logic App Designer in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/logicapp-designer-screenshot1.png)
@@ -53,7 +53,7 @@ This set of instructions deploys a complete set of resources for each alert type
 
 ### Optional Information
 
-    ### Alert Scope
+#### Alert Scope
     The alerts deployed are set to be triggered for all services in all regions. Instead, the alerts should be tailored to your specific services and regions. 
     1. Login to the Azure portal and navigate to Alerts
     2. Click 'Manage alert rules' at the bottom
@@ -61,9 +61,9 @@ This set of instructions deploys a complete set of resources for each alert type
     4. Use the 'Services' and 'Regions' dropdowns to reduce the scope to match your environment
     5. Click 'save' 
 
-   ![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-scope-screenshot1.png)
+![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-scope-screenshot1.png)
 
-    ### Combined Alerting
+#### Combined Alerting
     This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment. The Logic App is mapped to a single Teams channel. If the channel is shared between all alert types you do not need to deploy multiple instances of logic apps, action groups or alerts. The installation process can be changed to have all 4 alerts trigger the same logic app as the Service Health alerts are deployed using the Common Alert Schema meaning the JSON parsing is the same for all 4 alert types. 
     
     To deploy all 4 alerts to the same Teams channel:
@@ -74,4 +74,4 @@ This set of instructions deploys a complete set of resources for each alert type
     5. Use the 'Event type' drop down to select the alert types that should trigger the message to be posted on Teams
     6. Click 'Save'
 
-   ![Combined Alerts in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-screenshot1.png)
+![Combined Alerts in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-screenshot1.png)
