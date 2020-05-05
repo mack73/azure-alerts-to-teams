@@ -1,0 +1,34 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "api_connection_username": {
+            "defaultValue": "user@contoso.com",
+            "type": "string"
+        },
+        "api_connection_name": {
+            "defaultValue": "teams",
+            "type": "string"
+        },
+        "region_name": {
+            "defaultValue": "eastus",
+            "type": "string"
+        }
+    },
+    "variables": {},
+    "resources": [
+        {
+            "type": "Microsoft.Web/connections",
+            "apiVersion": "2016-06-01",
+            "name": "[parameters('api_connection_name')]",
+            "location": "[parameters('region_name')]",
+            "properties": {
+                "displayName": "[parameters('api_connection_username')]",
+                "customParameterValues": {},
+                "api": {
+                    "id": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Web/locations/', parameters('region_name'), '/managedApis/', parameters('api_connection_name'))]"
+                }
+            }
+        }
+    ]
+}

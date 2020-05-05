@@ -1,0 +1,433 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "subscription_id": {
+            "defaultValue": "[subscription().subscriptionId]",
+            "type": "string"
+        },
+        "resource_group": {
+            "defaultValue": "[resourceGroup().name]",
+            "type": "string"
+        }, 
+        "region_name": {
+            "defaultValue": "southcentralus",
+            "type": "string",
+            "metadata": {
+                "description": "Need to pass in a datacenter region. Using resourceGroup().Location does not work due to a bug in the logic app deployment process"
+            }
+        },
+        "alertEventType": {
+            "allowedValues": ["Incident", "Maintenance", "Informational", "Security"],
+            "defaultValue": "Incident",
+            "type": "string",
+            "metadata": {
+                "Description" : "Incident=Service Issues, Maintenance=Planned Maintenance, Informational=Health Advisory, Security=Security Advisory"
+            }
+        },
+        "default-name": {
+            "defaultValue": "service-issues",
+            "type": "string",
+            "metadata": {
+                "description": "Pass in a value to auto set the names of the individual components. Cannot contain spaces. Suggested names to match the alert names: service-issues, planned-maintenance, health-advisory, security-advisory. Can be overridden by passing in individual names as parameters for each component"
+            }
+        },
+        "api_connection_name": {
+            "defaultValue": "teams",
+            "type": "string",
+            "metadata": {
+                "description": "The name of the API connection to be used"
+            }
+        },
+        "connections_teams_externalid": {
+            "defaultValue": "[concat('/subscriptions/', parameters('subscription_id'), '/resourceGroups/', parameters('resource_group'), '/providers/Microsoft.Web/connections/', parameters('api_connection_name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Resource ID of the API connection"
+            }
+        },
+        "actionGroupName": {
+            "defaultValue": "[concat('teams-', parameters('default-name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Alert Action Group. This template will create a new action group for each alert"
+            }
+        },
+        "actionGroupShortName": {
+            "defaultValue": "[take(parameters('default-name'),12)]",
+            "maxLength": 12,
+            "type": "string",
+            "metadata": {
+                "description": "Short name of the Action Group. It will automatically trim the default name to 12 characters"
+            }
+        },
+        "AlertName": {
+            "defaultValue": "[concat('alert-', parameters('default-name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Alert"
+            }
+        },
+        "alertDescription": {
+            "defaultValue": "[concat('Teams message posted by Logic App for ', parameters('default-name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Description of the Alert"
+            }
+        },
+        "LogicApp_alert_name": {
+            "defaultValue": "[concat('teams-alert-', parameters('default-name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Name of the Logic App"
+            }
+        },
+        "resourceId": {
+            "defaultValue": "[concat('/subscriptions/', parameters('subscription_id'), '/resourcegroups/', parameters('resource_group'), '/providers/microsoft.insights/actiongroups/', parameters('LogicApp_alert_name'))]",
+            "type": "string",
+            "metadata": {
+                "description": "Alert scope"
+            }
+        },
+        "actionGroupId": {
+            "defaultValue": "[concat('/subscriptions/', parameters('subscription_id'), '/resourcegroups/', parameters('resource_group'), '/providers/microsoft.insights/actiongroups/', parameters('actionGroupName'))]",
+            "type": "string",
+            "metadata": {
+                "description": "resrouce ID of the Action Group"
+            }
+        }
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Logic/workflows",
+            "apiVersion": "2017-07-01",
+            "name": "[parameters('LogicApp_alert_name')]",
+            "location": "[parameters('region_name')]",
+            "properties": {
+                "state": "Enabled",
+                "definition": {
+                    "$schema": "https://schema.management.azure.com/providers/Microsoft.Logic/schemas/2016-06-01/workflowdefinition.json#",
+                    "contentVersion": "1.0.0.0",
+                    "parameters": {
+                        "$connections": {
+                            "defaultValue": {},
+                            "type": "Object"
+                        }
+                    },
+                    "triggers": {
+                        "manual": {
+                            "type": "Request",
+                            "kind": "Http",
+                            "inputs": {
+                                "schema": {}
+                            }
+                        }
+                    },
+                    "actions": {
+                        "Parse_JSON": {
+                            "runAfter": {},
+                            "type": "ParseJson",
+                            "inputs": {
+                                "content": "@triggerBody()",
+                                "schema": {
+                                    "properties": {
+                                        "data": {
+                                            "properties": {
+                                                "alertContext": {
+                                                    "properties": {
+                                                        "ResourceType": {},
+                                                        "authorization": {},
+                                                        "caller": {},
+                                                        "channels": {
+                                                            "type": "integer"
+                                                        },
+                                                        "claims": {},
+                                                        "correlationId": {
+                                                            "type": "string"
+                                                        },
+                                                        "eventDataId": {
+                                                            "type": "string"
+                                                        },
+                                                        "eventSource": {
+                                                            "type": "integer"
+                                                        },
+                                                        "eventTimestamp": {
+                                                            "type": "string"
+                                                        },
+                                                        "httpRequest": {},
+                                                        "level": {
+                                                            "type": "integer"
+                                                        },
+                                                        "operationId": {
+                                                            "type": "string"
+                                                        },
+                                                        "operationName": {
+                                                            "type": "string"
+                                                        },
+                                                        "properties": {
+                                                            "properties": {
+                                                                "communication": {
+                                                                    "type": "string"
+                                                                },
+                                                                "communicationId": {
+                                                                    "type": "string"
+                                                                },
+                                                                "defaultLanguageContent": {
+                                                                    "type": "string"
+                                                                },
+                                                                "defaultLanguageTitle": {
+                                                                    "type": "string"
+                                                                },
+                                                                "impactMitigationTime": {
+                                                                    "type": "string"
+                                                                },
+                                                                "impactStartTime": {
+                                                                    "type": "string"
+                                                                },
+                                                                "impactedServices": {
+                                                                    "type": "string"
+                                                                },
+                                                                "impactedServicesTableRows": {
+                                                                    "type": "string"
+                                                                },
+                                                                "incidentType": {
+                                                                    "type": "string"
+                                                                },
+                                                                "isHIR": {
+                                                                    "type": "string"
+                                                                },
+                                                                "region": {
+                                                                    "type": "string"
+                                                                },
+                                                                "service": {
+                                                                    "type": "string"
+                                                                },
+                                                                "stage": {
+                                                                    "type": "string"
+                                                                },
+                                                                "title": {
+                                                                    "type": "string"
+                                                                },
+                                                                "trackingId": {
+                                                                    "type": "string"
+                                                                },
+                                                                "version": {
+                                                                    "type": "string"
+                                                                }
+                                                            },
+                                                            "type": "object"
+                                                        },
+                                                        "status": {
+                                                            "type": "string"
+                                                        },
+                                                        "subStatus": {},
+                                                        "submissionTimestamp": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                },
+                                                "essentials": {
+                                                    "properties": {
+                                                        "alertContextVersion": {
+                                                            "type": "string"
+                                                        },
+                                                        "alertId": {
+                                                            "type": "string"
+                                                        },
+                                                        "alertRule": {
+                                                            "type": "string"
+                                                        },
+                                                        "alertTargetIDs": {
+                                                            "items": {
+                                                                "type": "string"
+                                                            },
+                                                            "type": "array"
+                                                        },
+                                                        "description": {
+                                                            "type": "string"
+                                                        },
+                                                        "essentialsVersion": {
+                                                            "type": "string"
+                                                        },
+                                                        "firedDateTime": {
+                                                            "type": "string"
+                                                        },
+                                                        "monitorCondition": {
+                                                            "type": "string"
+                                                        },
+                                                        "monitoringService": {
+                                                            "type": "string"
+                                                        },
+                                                        "originAlertId": {
+                                                            "type": "string"
+                                                        },
+                                                        "severity": {
+                                                            "type": "string"
+                                                        },
+                                                        "signalType": {
+                                                            "type": "string"
+                                                        }
+                                                    },
+                                                    "type": "object"
+                                                }
+                                            },
+                                            "type": "object"
+                                        },
+                                        "schemaId": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        },
+                        "Post_a_message_(V3)": {
+                            "runAfter": {
+                                "Parse_JSON": [
+                                    "Succeeded"
+                                ]
+                            },
+                            "type": "ApiConnection",
+                            "inputs": {
+                                "body": {
+                                    "body": {
+                                        "content": "<p>@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['title']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['incidentType']} @{body('Parse_JSON')?['data']?['alertContext']?['properties']?['trackingId']}: @{body('Parse_JSON')?['data']?['alertContext']?['properties']?['stage']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['impactStartTime']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['impactMitigationTime']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['impactedServicesTableRows']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['defaultLanguageTitle']}<br>\n@{body('Parse_JSON')?['data']?['alertContext']?['properties']?['defaultLanguageContent']}</p>",
+                                        "contentType": "html"
+                                    }
+                                },
+                                "host": {
+                                    "connection": {
+                                        "name": "@parameters('$connections')['teams']['connectionId']"
+                                    }
+                                },
+                                "method": "post",
+                                "path": "/v3/beta/teams//channels//messages"
+                            }
+                        }
+                    },
+                    "outputs": {}
+                },
+                "parameters": {
+                    "$connections": {
+                        "value": {
+                            "teams": {
+                                "connectionId": "[parameters('connections_teams_externalid')]",
+                                "connectionName": "[parameters('api_connection_name')]",
+                                "id": "[concat('/subscriptions/', parameters('subscription_id'), '/providers/Microsoft.Web/locations/', parameters('region_name'), '/managedApis/', parameters('api_connection_name'))]"
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Insights/actionGroups",
+            "apiVersion": "2018-03-01",
+            "name": "[parameters('actionGroupName')]",
+            "location": "Global",
+            "properties": {
+                "groupShortName": "[parameters('actionGroupShortName')]",
+                "enabled": true,
+                "logicAppReceivers": [
+                    {
+                        "name": "[parameters('LogicApp_alert_name')]",
+                        "resourceId": "[concat('/subscriptions/', parameters('subscription_id'), '/resourceGroups/', parameters('resource_group'), '/providers/Microsoft.Logic/workflows/', parameters('LogicApp_alert_name'))]",
+                        "callbackUrl": "[listCallbackUrl(resourceId(parameters('resource_group'),'Microsoft.Logic/workflows/triggers', parameters('LogicApp_alert_name'), 'manual'), '2016-06-01').value]",
+                        "useCommonAlertSchema": true 
+                    }
+                ]
+            }
+        },
+        {
+            "name": "[parameters('AlertName')]",
+            "type": "Microsoft.Insights/activityLogAlerts",
+            "apiVersion": "2017-04-01",
+            "location": "global",
+            "properties": {
+                "description": "[parameters('alertDescription')]",
+                "enabled": true,
+                "scopes": [
+                    "[parameters('resourceId')]"
+                ],
+                "condition": {
+                    "allOf": [
+                        {
+                            "field": "category",
+                            "equals": "ServiceHealth"
+                        },
+                        {
+                            "anyOf": [
+                              {
+                                "field": "properties.incidentType",
+                                "equals": "[parameters('alertEventType')]",
+                                "containsAny": null
+                              }
+                            ]
+                          },
+                        {
+                            "field": "properties.impactedServices[*].ImpactedRegions[*].RegionName",
+                            "equals": null,
+                            "containsAny": [
+                                "Australia Central",
+                                "Australia Central 2",
+                                "Australia East",
+                                "Australia Southeast",
+                                "Brazil South",
+                                "Canada Central",
+                                "Canada East",
+                                "Central India",
+                                "Central US",
+                                "East Asia",
+                                "East US",
+                                "East US 2",
+                                "France Central",
+                                "France South",
+                                "Germany North",
+                                "Germany West Central",
+                                "Global",
+                                "Japan East",
+                                "Japan West",
+                                "Korea Central",
+                                "Korea South",
+                                "North Central US",
+                                "North Europe",
+                                "Norway East",
+                                "Norway West",
+                                "South Africa North",
+                                "South Africa West",
+                                "South Central US",
+                                "Southeast Asia",
+                                "South India",
+                                "Switzerland North",
+                                "Switzerland West",
+                                "UAE Central",
+                                "UAE North",
+                                "UK South",
+                                "UK West",
+                                "West Central US",
+                                "West Europe",
+                                "West India",
+                                "West US",
+                                "West US 2"
+                            ]
+                        }
+                    ]
+                },
+                "actions": {
+                    "actionGroups": [
+                        {
+                            "actionGroupId": "[parameters('actionGroupId')]"
+                        }
+                    ]
+                }
+            }
+        }
+    ],
+    "outputs": {
+        "actionGroupId": {
+            "type": "string",
+            "value": "[resourceId('Microsoft.Insights/actionGroups',parameters('actionGroupName'))]"
+        }
+    }
+}
