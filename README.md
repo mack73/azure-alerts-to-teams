@@ -11,13 +11,14 @@ D. An alert to kick off the process when a Service Health alert is generated for
 This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Installation Instructions:
-1. Deploy 'api-connection.json' template. Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
+### 1. Deploy 'api-connection.json' template. 
+Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
 
     #### Example deployment using CLI: 
     az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
 
 
-2. Authorize the API connection 
+### 2. Authorize the API connection 
     1. Login to the Azure portal and locate the API connection 
     2. Click on 'Edit API Connection' on the left panel
     3. Click the blue 'Authorize' button
@@ -27,7 +28,8 @@ This set of instructions deploys a complete set of resources for each alert type
     ![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/api-connection-screenshot1.png)
 
 
-3. Deploy 'logic-ag-alert.json' template. This will deploy the following:
+### 3. Deploy 'logic-ag-alert.json' template. 
+    This will deploy the following:
     * A logic App
     * An action group
     * An alert
@@ -41,7 +43,7 @@ This set of instructions deploys a complete set of resources for each alert type
     4. Security Advisory: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Security default-name=security-advisory --template-file logic-ag-alert.json
 
 
-4. Edit the Logic App using the designer to specify the Teams Channel 
+### 4. Edit the Logic App using the designer to specify the Teams Channel 
     1. Login to the Azure portal and locate the logic app
     2. Click on 'Logic app designer' on the left panel
     3. Click on 'Post a message' to expand the step 
