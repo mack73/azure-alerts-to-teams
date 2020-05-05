@@ -54,24 +54,24 @@ This set of instructions deploys a complete set of resources for each alert type
 ### Optional Information
 
 #### Alert Scope
-    The alerts deployed are set to be triggered for all services in all regions. Instead, the alerts should be tailored to your specific services and regions. 
-    1. Login to the Azure portal and navigate to Alerts
-    2. Click 'Manage alert rules' at the bottom
-    3. Select an alert
-    4. Use the 'Services' and 'Regions' dropdowns to reduce the scope to match your environment
-    5. Click 'save' 
+The alerts deployed are set to be triggered for all services in all regions. Instead, the alerts should be tailored to your specific services and regions. 
+1. Login to the Azure portal and navigate to Alerts
+2. Click 'Manage alert rules' at the bottom
+3. Select an alert
+4. Use the 'Services' and 'Regions' dropdowns to reduce the scope to match your environment
+5. Click 'save' 
 
 ![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-scope-screenshot1.png)
 
 #### Combined Alerting
-    This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment. The Logic App is mapped to a single Teams channel. If the channel is shared between all alert types you do not need to deploy multiple instances of logic apps, action groups or alerts. The installation process can be changed to have all 4 alerts trigger the same logic app as the Service Health alerts are deployed using the Common Alert Schema meaning the JSON parsing is the same for all 4 alert types. 
+This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment. The Logic App is mapped to a single Teams channel. If the channel is shared between all alert types you do not need to deploy multiple instances of logic apps, action groups or alerts. The installation process can be changed to have all 4 alerts trigger the same logic app as the Service Health alerts are deployed using the Common Alert Schema meaning the JSON parsing is the same for all 4 alert types. 
     
-    To deploy all 4 alerts to the same Teams channel:
-    1. Complete the deployment process for 1 alert type. The default name can be set to something universal to prevent confusion 
-    2. Login to the Azure portal and navigate to Alerts
-    3. Click 'Manage alert rules' at the bottom
-    4. Select the alert
-    5. Use the 'Event type' drop down to select the alert types that should trigger the message to be posted on Teams
-    6. Click 'Save'
+To deploy all 4 alerts to the same Teams channel:
+1. Complete the deployment process for 1 alert type. The default name can be set to something universal to prevent confusion 
+2. Login to the Azure portal and navigate to Alerts
+3. Click 'Manage alert rules' at the bottom
+4. Select the alert
+5. Use the 'Event type' drop down to select the alert types that should trigger the message to be posted on Teams
+6. Click 'Save'
 
 ![Combined Alerts in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-screenshot1.png)
