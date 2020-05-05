@@ -37,13 +37,16 @@ This will deploy the following:
 Since there are currently 4 types of Service Health alerts, you will repeat this step 4 times, each time indicating a different type of alert. Required parameters: 'region_name' The region name must be specified due to a bug parsing resourceGroup().Location, 'alertEventType' this is used to specify which of the 4 alert types you want to deploy (Incident=Service Issues, Maintenance=Planned Maintenance, Informational=Health Advisory, Security=Security Advisory), 'default-name' the name you want to label the various resources in Azure. I suggest you use a name similar to the alert type in lowercase separated by hyphens (e.g service-issues). Optional - Review the parameters section in the json template as you can override the default naming convention for each of the resouces by including specific parameters during deployment. 
 
 #### Example deployment using CLI: 
-1. Service Issues: 
-        az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json
-2. Planned Maintenance: 
+Service Issues: 
+    az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json
+
+Planned Maintenance: 
     az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Maintenance default-name=planned-maintenance --template-file logic-ag-alert.json
-3. Health Advisory: 
+
+Health Advisory: 
     az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Informational default-name=health-advisory --template-file logic-ag-alert.json
-4. Security Advisory: 
+
+Security Advisory: 
     az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Security default-name=security-advisory --template-file logic-ag-alert.json
 
 
