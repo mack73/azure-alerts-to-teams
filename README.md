@@ -14,16 +14,16 @@ This set of instructions deploys a complete set of resources for each alert type
 ### 1. Deploy 'api-connection.json' template. 
 Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
 
-    #### Example deployment using CLI: 
+#### Example deployment using CLI: 
     az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
 
 
 ### 2. Authorize the API connection 
-    1. Login to the Azure portal and locate the API connection 
-    2. Click on 'Edit API Connection' on the left panel
-    3. Click the blue 'Authorize' button
-    4. Complete the login process
-    5. Click 'Save' 
+1. Login to the Azure portal and locate the API connection 
+2. Click on 'Edit API Connection' on the left panel
+3. Click the blue 'Authorize' button
+4. Complete the login process
+5. Click 'Save' 
 
     ![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/api-connection-screenshot1.png)
 
