@@ -8,7 +8,7 @@ B. A logic App that parses the Service Health alerts json and publishes it a hum
 C. An action group to trigger the logic app
 D. An alert to kick off the process when a Service Health alert is generated for the Azure environment. 
 
-#Installation Instructions:
+# Installation Instructions:
 1. Deploy 'api-connection.json' template. You will need to include The email address of the account used to authenticate to teams as a parameter. Optional - you can include the parameter 'api_connection_name' to change the API connection name. The default is 'teams'
 
     Example deployment uisng CLI: az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
