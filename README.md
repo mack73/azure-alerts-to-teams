@@ -25,7 +25,7 @@ Required parameter: 'api_connection_username' You will need to include the email
 4. Complete the login process
 5. Click 'Save' 
 
-    ![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/api-connection-screenshot1.png)
+![API Connection Settings in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/api-connection-screenshot1.png)
 
 
 ### 3. Deploy 'logic-ag-alert.json' template. 
@@ -36,21 +36,21 @@ Required parameter: 'api_connection_username' You will need to include the email
 
     Since there are currently 4 types of Service Health alerts, you will repeat this step 4 times, each time indicating a different type of alert. Required parameters: 'region_name' The region name must be specified due to a bug parsing resourceGroup().Location, 'alertEventType' this is used to specify which of the 4 alert types you want to deploy (Incident=Service Issues, Maintenance=Planned Maintenance, Informational=Health Advisory, Security=Security Advisory), 'default-name' the name you want to label the various resources in Azure. I suggest you use a name similar to the alert type in lowercase separated by hyphens (e.g service-issues). Optional - Review the parameters section in the json template as you can override the default naming convention for each of the resouces by including specific parameters during deployment. 
 
-    #### Example deployment using CLI: 
-    1. Service Issues: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json
-    2. Planned Maintenance: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Maintenance default-name=planned-maintenance --template-file logic-ag-alert.json
-    3. Health Advisory: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Informational default-name=health-advisory --template-file logic-ag-alert.json
-    4. Security Advisory: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Security default-name=security-advisory --template-file logic-ag-alert.json
+#### Example deployment using CLI: 
+1. Service Issues: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json
+2. Planned Maintenance: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Maintenance default-name=planned-maintenance --template-file logic-ag-alert.json
+3. Health Advisory: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Informational default-name=health-advisory --template-file logic-ag-alert.json
+4. Security Advisory: az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Security default-name=security-advisory --template-file logic-ag-alert.json
 
 
 ### 4. Edit the Logic App using the designer to specify the Teams Channel 
-    1. Login to the Azure portal and locate the logic app
-    2. Click on 'Logic app designer' on the left panel
-    3. Click on 'Post a message' to expand the step 
-    4. Select the desired 'Team' and 'Channel' from the dropdowns
-    5. Click 'Save' at the top. Repeat these steps for all 4 logic apps
+1. Login to the Azure portal and locate the logic app
+2. Click on 'Logic app designer' on the left panel
+3. Click on 'Post a message' to expand the step 
+4. Select the desired 'Team' and 'Channel' from the dropdowns
+5. Click 'Save' at the top. Repeat these steps for all 4 logic apps
 
-    ![Logic App Designer in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/logicapp-designer-screenshot1.png)
+![Logic App Designer in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/logicapp-designer-screenshot1.png)
 
 
 ### Optional Information
