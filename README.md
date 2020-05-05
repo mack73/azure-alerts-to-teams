@@ -38,7 +38,7 @@ Since there are currently 4 types of Service Health alerts, you will repeat this
 
 #### Example deployment using CLI: 
 1. Service Issues: 
-    '''az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json'''
+    ```az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Incident default-name=service-issues --template-file logic-ag-alert.json```
 2. Planned Maintenance: 
     az deployment group create --resource-group teams-alert-prod --parameters region_name=eastus alertEventType=Maintenance default-name=planned-maintenance --template-file logic-ag-alert.json
 3. Health Advisory: 
