@@ -6,7 +6,7 @@ Currently the Service Health alerts in Azure do not allow notifications to be pu
 A. An API connection to Teams
 B. A logic App that parses the Service Health alerts json and publishes it as a human readable message on a Teams channel
 C. An action group to trigger the logic app
-D. An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for ** ALL ** services in ** ALL ** regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
+D. An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for  __ALL__ services in __ALL__ regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
 This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
