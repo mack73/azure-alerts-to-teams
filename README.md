@@ -11,7 +11,7 @@ This set of instructions deploys a complete set of resources for each alert type
 
 ## Installation Instructions:
 ### 1. Deploy 'api-connection.json' template. 
-Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
+Create the API Connection to be used by the Logic App to connect to Teams. Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
 
 #### Example deployment using CLI: 
     az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
