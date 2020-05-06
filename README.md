@@ -1,13 +1,13 @@
 # Azure Service Health Alerts Posted to Teams Channel
 Currently, Service Health alerts in Azure cannot be posted directly to Teams. To fill this gap, these templates can be used to deploy a logic app that posts Azure Service Health alerts to a Teams channel. *NOTE*: At this time, the logic app teams connector to post a message (v3) is still in preview. 
 
-The Arm templates deploys the following:
+The ARM templates deploys the following:
 * An API connection to Teams
 * A logic App that parses the Service Health alerts json and posts it as a human readable message on a Teams channel
 * An action group to trigger the logic app
 * A Service Health alert for the Azure environment. The alert scope is set to *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
-This set of instructions deploys a complete set of resources for each alert type so that you can post each service health alert type to a different channel. However, this might not be required for your deployment if all of the alerts can be published to the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
+These instructions deploy a complete set of resources for each alert type so that you can post each service health alert type to a different Teams channel. However, this might not be required for your deployment if all of the alerts can be posted on the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Installation Instructions:
 ### 1. Deploy 'api-connection.json' Template
@@ -29,7 +29,7 @@ The API connection will need to be authorized after deployment.
 
 
 ### 3. Deploy 'logic-ag-alert.json' Template
-There are currently 4 types of Service Health alerts (Service Issues, Planned Maintenance, Health Advisories, Security Advisories). Each deployment will create 1 set of resources for each alert type. Repeat this step 4 times, 1 for each alert type.  However, this might not be required for your deployment if all of the alerts will be published to the same Teams Channel. See the section 'Combined Alerting' at the bottom for more information. 
+There are currently 4 types of Service Health alerts (Service Issues, Planned Maintenance, Health Advisories, Security Advisories). Each deployment of the template will create 1 set of resources for 1 alert type. Deploy the template 4 times, 1 for each alert type.  However, multiple sets of resources may not be required for your deployment if all of the alerts will be posted to the same Teams Channel. See the section 'Combined Alerting' at the bottom for more information. 
 
 This template will deploy the following:
 * A logic App
