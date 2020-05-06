@@ -3,7 +3,7 @@ Currently Service Health alerts in Azure cannot be pushed to Teams. To fill this
 
 The Arm templates deploys the following:
 * An API connection to Teams
-* A logic App that parses the Service Health alerts json and publishes it as a human readable message on a Teams channel
+* A logic App that parses the Service Health alerts json and posts it as a human readable message on a Teams channel
 * An action group to trigger the logic app
 * An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
