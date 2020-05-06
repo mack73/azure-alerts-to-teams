@@ -5,19 +5,20 @@ The Arm templates deploys the following:
 * An API connection to Teams
 * A logic App that parses the Service Health alerts json and publishes it as a human readable message on a Teams channel
 * An action group to trigger the logic app
-* An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for  *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
+* An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
-This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
+This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want all of the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Installation Instructions:
 ### 1. Deploy 'api-connection.json' template. 
-Create the API Connection to be used by the Logic App to connect to Teams. Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
+Create the API Connection used by the Logic App to connect to Teams. Required parameter: 'api_connection_username' You will need to include the email address of the account used to authenticate to teams. Optional parameter: 'api_connection_name' you can specify the API connection name. The default is value is 'teams'
 
 #### Example deployment using CLI: 
     az deployment group create --resource-group teams-alert-prod --parameters api_connection_username=user@contoso.com api_connection_name=teams --template-file api-connection.json
 
 
 ### 2. Authorize the API connection 
+The API connection will need to be authorized after deployment. Only 1 API connection is needed. 
 1. Login to the Azure portal and locate the API connection 
 2. Click on 'Edit API Connection' on the left panel
 3. Click the blue 'Authorize' button
@@ -28,12 +29,14 @@ Create the API Connection to be used by the Logic App to connect to Teams. Requi
 
 
 ### 3. Deploy 'logic-ag-alert.json' template
-This will deploy the following:
+There are currently 4 types of Service Health alerts. Each deployment will create 1 set of resources for 1 alert type. Repeat this step 4 times, 1 for each alert type.  This might not be required for your deployment if you want all of the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' at the bottom for more information. 
+
+This templae will deploy the following:
 * A logic App
 * An action group
 * An alert
 
-Since there are currently 4 types of Service Health alerts, you will repeat this step 4 times, each time indicating a different type of alert. Required parameters: 'region_name' The region name must be specified due to a bug parsing resourceGroup().Location, 'alertEventType' this is used to specify which of the 4 alert types you want to deploy (Incident=Service Issues, Maintenance=Planned Maintenance, Informational=Health Advisory, Security=Security Advisory), 'default-name' the name you want to label the various resources in Azure. I suggest you use a name similar to the alert type in lowercase separated by hyphens (e.g service-issues). Optional - Review the parameters section in the json template as you can override the default naming convention for each of the resouces by including specific parameters during deployment. 
+Required parameters: 'region_name' The region name must be specified due to a bug parsing resourceGroup().Location, 'alertEventType' is used to specify which of the 4 alert types you want to deploy (Incident=Service Issues, Maintenance=Planned Maintenance, Informational=Health Advisory, Security=Security Advisory), 'default-name' the name you want to label the various resources in Azure. I suggest you use a name similar to the alert type in lowercase separated by hyphens (e.g service-issues or planned-maintenance). Optional - Review the parameters section in the json template as you can override the default naming convention for each of the resouces by including specific parameters during deployment. 
 
 #### Example deployment using CLI: 
 ##### Service Issues: 
@@ -50,6 +53,7 @@ Since there are currently 4 types of Service Health alerts, you will repeat this
 
 
 ### 4. Edit the Logic App using the designer to specify the Teams Channel 
+The logic app 'post a message to Teams' step needs to be configured with the Teams channel where you want the message posted
 1. Login to the Azure portal and locate the logic app
 2. Click on 'Logic app designer' on the left panel
 3. Click on 'Post a message' to expand the step 
