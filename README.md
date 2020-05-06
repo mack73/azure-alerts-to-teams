@@ -1,5 +1,5 @@
 # Azure Service Health Alerts Posted to Teams Channel
-Currently, Service Health alerts in Azure cannot be pushed to Teams. To fill this gap, these templates can be used to deploy a logic app that posts Azure Service Health alerts to a Teams channel. *NOTE* At this time, the logic app teams connector to post a message (v3) is still in preview. 
+Currently, Service Health alerts in Azure cannot be posted directly to Teams. To fill this gap, these templates can be used to deploy a logic app that posts Azure Service Health alerts to a Teams channel. *NOTE* At this time, the logic app teams connector to post a message (v3) is still in preview. 
 
 The Arm templates deploys the following:
 * An API connection to Teams
