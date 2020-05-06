@@ -7,7 +7,7 @@ The Arm templates deploys the following:
 * An action group to trigger the logic app
 * A Service Health alert for the Azure environment. The alert scope is set to *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
-This set of instructions deploys a complete set of resources for each alert type as you may choose to post each service health alert to a different channel. However, this might not be required for your deployment if all of the alerts can be published to the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
+This set of instructions deploys a complete set of resources for each alert type so that you can post each service health alert type to a different channel. However, this might not be required for your deployment if all of the alerts can be published to the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Installation Instructions:
 ### 1. Deploy 'api-connection.json' Template
