@@ -1,12 +1,11 @@
 # Azure Service Health Alerts to Teams
-Arm template to deploy a logic app and accompanying alerts that publish Azure Service Health alerts to a Teams channel. 
-*NOTE* At this time, the logic app teams connector to post a message (v3) is still in preview. 
+Currently the Service Health alerts in Azure do not allow notifications to be pushed to Teams. To fill this gap, these Arm templates can be used to deploy a logic app and accompanying alerts that publish Azure Service Health alerts to a Teams channel. *NOTE* At this time, the logic app teams connector to post a message (v3) is still in preview. 
 
-Currently the Service Health alerts in Azure do not allow notifications to be pushed to Teams. To fill this gap, these Arm templates can be used to deploy the following:
+The Arm templates can be used to deploy the following:
 * An API connection to Teams
 * A logic App that parses the Service Health alerts json and publishes it as a human readable message on a Teams channel
 * An action group to trigger the logic app
-* An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for  __ALL__ services in __ALL__ regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
+* An alert to kick off the process when a Service Health alert is generated for the Azure environment. The alert scope is for  *ALL* services in *ALL* regions. Adjust as necessary after deployment. See the section 'alert scope' for instruction on how to accomplish this at the bottom
 
 This set of instructions deploys a complete set of resources for each alert type. This might not be required for your deployment if you want the alerts to be published to the same Teams Channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
