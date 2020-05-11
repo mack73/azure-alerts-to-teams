@@ -103,6 +103,6 @@ Now when any of the 4 alerts are received it will trigger the logic app to post 
 ![Combined Alerts in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-screenshot1.png)
 
 ### Example Message 
-Here is an example of the message format as posted in Teams. If necessary, this format can be customized in the 'Parse JSON' step in the Logic App. 
+Here is an example of the message format as posted in Teams. If necessary, this format can be customized in the 'Parse JSON' step in the Logic App. A example of a service health alert (using Common Alert Schema) can be found in this GitHub repo https://github.com/scautomation/Common-Alert-Schema/blob/master/serviceHealth/alert.json. 
 
 ![Example Message](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/example-alert.png)
