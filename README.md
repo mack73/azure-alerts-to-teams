@@ -90,3 +90,8 @@ To post all 4 alerts to the same Teams channel:
 Now when any of the 4 alerts are received it will trigger the logic app to post the message to the Teams channel. 
 
 ![Combined Alerts in Azure Portal](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/alert-screenshot1.png)
+
+### Example Message 
+Here is an example of the message format as posted in Teams. If necessary, this format can be customized in the 'Parse JSON' step in the Logic App. 
+
+![Example Message](https://github.com/mack73/azure-alerts-to-teams/blob/master/readme-images/example-alert.png)
