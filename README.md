@@ -10,7 +10,7 @@ The ARM templates deploys the following:
 These instructions deploy a complete set of resources for each alert type so that you can post each service health alert type to a different Teams channel. However, this might not be required for your deployment if all of the alerts can be posted on the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
 ## Pre-Installation: Register Alert Providers
-If this is the first time using alerts, you may need to register 2 providers: Microsoft.insights and Microsoft.AlertsManagement. This can easily be accomplished using the portal or by running the following using CLI:
+If this is the first time using alerts, 2 providers may need to be registered: Microsoft.insights and Microsoft.AlertsManagement. This can easily be accomplished using the portal or by running the following using CLI:
 
 #### Query current state of providers:
     az provider show --namespace Microsoft.insights -o table
