@@ -9,6 +9,17 @@ The ARM templates deploys the following:
 
 These instructions deploy a complete set of resources for each alert type so that you can post each service health alert type to a different Teams channel. However, this might not be required for your deployment if all of the alerts can be posted on the same Teams channel. See the section 'Combined Alerting' for instructions on how to accomplish this at the bottom. 
 
+## Pre-Installation: Register Alert Providers
+If this is the first time using alerts, you may need to register 2 providers: Microsoft.insights and Microsoft.AlertsManagement. This can easily be accomplished using the portal or by running the following using CLI:
+
+#### Query current state of providers:
+    az provider show --namespace Microsoft.insights -o table
+    az provider show --namespace Microsoft.AlertsManagement -o table
+
+#### Register providers:
+    az provider register --namespace Microsoft.insights
+    az provider register --namespace Microsoft.AlertsManagement
+
 ## Installation Instructions:
 ### 1. Deploy 'api-connection.json' Template
 Create the API connection used by the logic app to connect to Teams. Only 1 API connection is needed as it can be shared by all logic apps. Required parameter: 'api_connection_username' - the email address of the account used to authenticate to Teams. Optional parameter: 'api_connection_name' - the name given to the API connection resource in Azure.
